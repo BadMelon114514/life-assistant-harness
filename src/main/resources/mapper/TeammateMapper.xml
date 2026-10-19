@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.badmelon.farming.mapper.TeammateMapper">
+
+    <resultMap id="TeammateMap" type="Teammate">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="role" property="role"/>
+        <result column="status" property="status"/>
+        <result column="current_task" property="currentTask"/>
+        <result column="progress" property="progress"/>
+        <result column="log_summary" property="logSummary"/>
+        <result column="heartbeat_at" property="heartbeatAt"/>
+        <result column="created_at" property="createdAt"/>
+        <result column="updated_at" property="updatedAt"/>
+    </resultMap>
+
+    <select id="findAll" resultMap="TeammateMap">
+        SELECT * FROM t_teammate ORDER BY id
+    </select>
+
+    <select id="findByName" resultMap="TeammateMap">
+        SELECT * FROM t_teammate WHERE name = #{name}
+    </select>
+
+    <insert id="insert" parameterType="Teammate" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO t_teammate (name, role, status, current_task, progress, log_summary)
+        VALUES (#{name}, #{role}, #{status}, #{currentTask}, #{progress}, #{logSummary})
+    </insert>
+
+    <update id="update" parameterType="Teammate">
+        UPDATE t_teammate
+        SET role = #{role},
+            status = #{status},
+            current_task = #{currentTask},
+            progress = #{progress},
+            log_summary = #{logSummary},
+            heartbeat_at = #{heartbeatAt}
+        WHERE name = #{name}
+    </update>
+
+    <update id="updateStatus">
+        UPDATE t_teammate SET status = #{status} WHERE name = #{name}
+    </update>
+
+    <delete id="deleteByName">
+        DELETE FROM t_teammate WHERE name = #{name}
+    </delete>
+</mapper>

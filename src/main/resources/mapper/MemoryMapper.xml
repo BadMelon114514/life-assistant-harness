@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.badmelon.farming.mapper.MemoryMapper">
+
+    <resultMap id="MemoryMap" type="MemoryItem">
+        <id column="id" property="id"/>
+        <result column="memory_key" property="memoryKey"/>
+        <result column="content" property="content"/>
+        <result column="importance" property="importance"/>
+        <result column="category" property="category"/>
+        <result column="created_at" property="createdAt"/>
+        <result column="updated_at" property="updatedAt"/>
+    </resultMap>
+
+    <select id="findAll" resultMap="MemoryMap">
+        SELECT * FROM t_memory ORDER BY importance DESC, id
+    </select>
+
+    <select id="findByKey" resultMap="MemoryMap">
+        SELECT * FROM t_memory WHERE memory_key = #{memoryKey}
+    </select>
+
+    <select id="findByCategory" resultMap="MemoryMap">
+        SELECT * FROM t_memory WHERE category = #{category} ORDER BY importance DESC
+    </select>
+
+    <insert id="insert" parameterType="MemoryItem" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO t_memory (memory_key, content, importance, category)
+        VALUES (#{memoryKey}, #{content}, #{importance}, #{category})
+    </insert>
+
+    <update id="update" parameterType="MemoryItem">
+        UPDATE t_memory
+        SET content = #{content},
+            importance = #{importance},
+            category = #{category}
+        WHERE memory_key = #{memoryKey}
+    </update>
+
+    <delete id="deleteByKey">
+        DELETE FROM t_memory WHERE memory_key = #{memoryKey}
+    </delete>
+</mapper>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.badmelon.farming.mapper.MonitorLogMapper">
+
+    <resultMap id="LogMap" type="MonitorLog">
+        <id column="id" property="id"/>
+        <result column="source" property="source"/>
+        <result column="level" property="level"/>
+        <result column="message" property="message"/>
+        <result column="created_at" property="createdAt"/>
+    </resultMap>
+
+    <insert id="insert" parameterType="MonitorLog" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO t_monitor_log (source, level, message)
+        VALUES (#{source}, #{level}, #{message})
+    </insert>
+
+    <select id="findLatest" resultMap="LogMap">
+        SELECT * FROM t_monitor_log ORDER BY id DESC LIMIT #{limit}
+    </select>
+
+    <select id="findBySource" resultMap="LogMap">
+        SELECT * FROM t_monitor_log WHERE source = #{source} ORDER BY id DESC LIMIT #{limit}
+    </select>
+
+    <delete id="clean">
+        DELETE FROM t_monitor_log WHERE created_at &lt; DATE_SUB(NOW(), INTERVAL #{keepDays} DAY)
+    </delete>
+</mapper>

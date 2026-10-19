@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.badmelon.farming.mapper.SettingMapper">
+
+    <resultMap id="SettingMap" type="Setting">
+        <id column="id" property="id"/>
+        <result column="setting_key" property="settingKey"/>
+        <result column="setting_value" property="settingValue"/>
+        <result column="description" property="description"/>
+        <result column="is_secret" property="isSecret"/>
+        <result column="updated_at" property="updatedAt"/>
+    </resultMap>
+
+    <select id="findAll" resultMap="SettingMap">
+        SELECT * FROM t_settings ORDER BY id
+    </select>
+
+    <select id="findByKey" resultMap="SettingMap">
+        SELECT * FROM t_settings WHERE setting_key = #{settingKey}
+    </select>
+
+    <insert id="insert" parameterType="Setting" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO t_settings (setting_key, setting_value, description, is_secret)
+        VALUES (#{settingKey}, #{settingValue}, #{description}, #{isSecret})
+    </insert>
+
+    <update id="update" parameterType="Setting">
+        UPDATE t_settings
+        SET setting_value = #{settingValue},
+            description = #{description},
+            is_secret = #{isSecret}
+        WHERE setting_key = #{settingKey}
+    </update>
+
+    <delete id="deleteByKey">
+        DELETE FROM t_settings WHERE setting_key = #{settingKey}
+    </delete>
+</mapper>

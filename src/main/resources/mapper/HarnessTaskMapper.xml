@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.badmelon.farming.mapper.HarnessTaskMapper">
+
+    <resultMap id="TaskMap" type="HarnessTask">
+        <id column="id" property="id"/>
+        <result column="task_key" property="taskKey"/>
+        <result column="title" property="title"/>
+        <result column="description" property="description"/>
+        <result column="status" property="status"/>
+        <result column="blocked_by" property="blockedBy"/>
+        <result column="owner" property="owner"/>
+        <result column="progress" property="progress"/>
+        <result column="result" property="result"/>
+        <result column="created_at" property="createdAt"/>
+        <result column="updated_at" property="updatedAt"/>
+    </resultMap>
+
+    <select id="findAll" resultMap="TaskMap">
+        SELECT * FROM t_task ORDER BY id
+    </select>
+
+    <select id="findByStatus" resultMap="TaskMap">
+        SELECT * FROM t_task WHERE status = #{status} ORDER BY id
+    </select>
+
+    <select id="findByOwner" resultMap="TaskMap">
+        SELECT * FROM t_task WHERE owner = #{owner} ORDER BY id
+    </select>
+
+    <select id="findByKey" resultMap="TaskMap">
+        SELECT * FROM t_task WHERE task_key = #{taskKey}
+    </select>
+
+    <insert id="insert" parameterType="HarnessTask" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO t_task (task_key, title, description, status, blocked_by, owner, progress, result)
+        VALUES (#{taskKey}, #{title}, #{description}, #{status}, #{blockedBy}, #{owner}, #{progress}, #{result})
+    </insert>
+
+    <update id="update" parameterType="HarnessTask">
+        UPDATE t_task
+        SET title = #{title},
+            description = #{description},
+            status = #{status},
+            blocked_by = #{blockedBy},
+            owner = #{owner},
+            progress = #{progress},
+            result = #{result}
+        WHERE task_key = #{taskKey}
+    </update>
+
+    <delete id="deleteByKey">
+        DELETE FROM t_task WHERE task_key = #{taskKey}
+    </delete>
+</mapper>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.badmelon.farming.mapper.AiModelMapper">
+
+    <resultMap id="ModelMap" type="AiModelConfig">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="provider" property="provider"/>
+        <result column="base_url" property="baseUrl"/>
+        <result column="model" property="model"/>
+        <result column="api_key" property="apiKey"/>
+        <result column="active" property="active"/>
+        <result column="created_at" property="createdAt"/>
+        <result column="updated_at" property="updatedAt"/>
+    </resultMap>
+
+    <select id="findAll" resultMap="ModelMap">
+        SELECT * FROM t_ai_model ORDER BY active DESC, id
+    </select>
+
+    <select id="findById" resultMap="ModelMap">
+        SELECT * FROM t_ai_model WHERE id = #{id}
+    </select>
+
+    <select id="findActive" resultMap="ModelMap">
+        SELECT * FROM t_ai_model WHERE active = 1 LIMIT 1
+    </select>
+
+    <insert id="insert" parameterType="AiModelConfig" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO t_ai_model (name, provider, base_url, model, api_key, active)
+        VALUES (#{name}, #{provider}, #{baseUrl}, #{model}, #{apiKey}, #{active})
+    </insert>
+
+    <update id="update" parameterType="AiModelConfig">
+        UPDATE t_ai_model
+        SET name = #{name},
+            provider = #{provider},
+            base_url = #{baseUrl},
+            model = #{model},
+            api_key = #{apiKey},
+            active = #{active}
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteById">
+        DELETE FROM t_ai_model WHERE id = #{id}
+    </delete>
+
+    <update id="clearActive">
+        UPDATE t_ai_model SET active = 0
+    </update>
+</mapper>

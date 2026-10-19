@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.badmelon.farming.mapper.SkillMapper">
+
+    <resultMap id="SkillMap" type="Skill">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="category" property="category"/>
+        <result column="description" property="description"/>
+        <result column="content" property="content"/>
+        <result column="enabled" property="enabled"/>
+        <result column="created_at" property="createdAt"/>
+        <result column="updated_at" property="updatedAt"/>
+    </resultMap>
+
+    <select id="findAll" resultMap="SkillMap">
+        SELECT * FROM t_skill ORDER BY category, id
+    </select>
+
+    <select id="findEnabled" resultMap="SkillMap">
+        SELECT * FROM t_skill WHERE enabled = 1 ORDER BY category, id
+    </select>
+
+    <select id="findByName" resultMap="SkillMap">
+        SELECT * FROM t_skill WHERE name = #{name}
+    </select>
+
+    <select id="findById" resultMap="SkillMap">
+        SELECT * FROM t_skill WHERE id = #{id}
+    </select>
+
+    <insert id="insert" parameterType="Skill" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO t_skill (name, category, description, content, enabled)
+        VALUES (#{name}, #{category}, #{description}, #{content}, #{enabled})
+    </insert>
+
+    <update id="update" parameterType="Skill">
+        UPDATE t_skill
+        SET name = #{name},
+            category = #{category},
+            description = #{description},
+            content = #{content},
+            enabled = #{enabled}
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteById">
+        DELETE FROM t_skill WHERE id = #{id}
+    </delete>
+</mapper>

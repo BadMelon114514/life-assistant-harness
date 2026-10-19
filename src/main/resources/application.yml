@@ -1,0 +1,63 @@
+server:
+  port: 8080
+  shutdown: graceful
+  servlet:
+    context-path: /
+
+spring:
+  application:
+    name: farming-harness
+  lifecycle:
+    # 前端「关闭后端服务」触发优雅停机时，等待在途请求完成的上限
+    timeout-per-shutdown-phase: 8s
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/farming_harness?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true
+    username: "${DB_USERNAME:root}"
+    password: "${DB_PASSWORD:}"
+    druid:
+      initial-size: 2
+      min-idle: 2
+      max-active: 20
+      validation-query: SELECT 1
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 200MB
+
+mybatis:
+  mapper-locations: classpath*:mapper/*.xml
+  type-aliases-package: com.badmelon.farming.entity
+  configuration:
+    map-underscore-to-camel-case: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+
+# 应用自定义配置
+farming:
+  harness:
+    # 数据存储根目录（本地部署，默认相对运行目录）
+    data-dir: ./data
+    # 知识库存储目录
+    knowledge-dir: ./data/knowledge
+    # 团队工作目录
+    work-dir: ./data/work
+    # 任务图持久化目录
+    task-dir: ./data/tasks
+    # 记忆库目录
+    memory-dir: ./data/memory
+    # 默认 LLM 模型
+    default-model: deepseek-v4-flash
+    # 默认 LLM 服务地址
+    default-base-url: https://api.deepseek.com
+    # 团队轮询间隔（毫秒）
+    poll-interval: 5000
+
+logging:
+  level:
+    com.badmelon.farming: INFO

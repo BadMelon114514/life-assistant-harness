@@ -1,0 +1,64 @@
+HELP.md
+.gradle
+build/
+!gradle/wrapper/gradle-wrapper.jar
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+bin/
+!**/src/main/**/bin/
+!**/src/test/**/bin/
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+out/
+!**/src/main/**/out/
+!**/src/test/**/out/
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+
+### VS Code ###
+.vscode/
+
+
+### 项目本地运行数据 / 大体积产物（不上传）###
+.gradle-home/
+.gradle/
+.claude/
+logs/
+*.log
+dist/
+mysql-data/
+data/work/
+data/tasks/
+data/memory/
+test_suite/.edge-test-profile*/
+test_suite/__pycache__/
+tools/temp/
+tools/browser-tests/.edge-test-profile*/
+tools/recover/recover_jars/
+android/.gradle/
+android/build/
+android/app/build/
+android/local.properties
+context_store/__pycache__/
+__pycache__/
+*.pyc
+tools/browser-tests/.edge-*/
+*.bak_*

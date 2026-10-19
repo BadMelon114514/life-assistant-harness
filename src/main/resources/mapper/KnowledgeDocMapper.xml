@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.badmelon.farming.mapper.KnowledgeDocMapper">
+
+    <resultMap id="DocMap" type="KnowledgeDoc">
+        <id column="id" property="id"/>
+        <result column="doc_key" property="docKey"/>
+        <result column="file_name" property="fileName"/>
+        <result column="file_type" property="fileType"/>
+        <result column="file_size" property="fileSize"/>
+        <result column="file_path" property="filePath"/>
+        <result column="content" property="content"/>
+        <result column="parse_status" property="parseStatus"/>
+        <result column="summary" property="summary"/>
+        <result column="tags" property="tags"/>
+        <result column="created_at" property="createdAt"/>
+        <result column="updated_at" property="updatedAt"/>
+    </resultMap>
+
+    <select id="findAll" resultMap="DocMap">
+        SELECT * FROM t_knowledge_doc ORDER BY id DESC
+    </select>
+
+    <select id="findByKey" resultMap="DocMap">
+        SELECT * FROM t_knowledge_doc WHERE doc_key = #{docKey}
+    </select>
+
+    <select id="search" resultMap="DocMap">
+        SELECT * FROM t_knowledge_doc
+        WHERE file_name LIKE CONCAT('%', #{keyword}, '%')
+           OR content LIKE CONCAT('%', #{keyword}, '%')
+           OR tags LIKE CONCAT('%', #{keyword}, '%')
+        ORDER BY
+          CASE WHEN file_name LIKE CONCAT('%', #{keyword}, '%') THEN 0 ELSE 1 END,
+          id DESC
+    </select>
+
+    <insert id="insert" parameterType="KnowledgeDoc" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO t_knowledge_doc (doc_key, file_name, file_type, file_size, file_path, content, parse_status, summary, tags)
+        VALUES (#{docKey}, #{fileName}, #{fileType}, #{fileSize}, #{filePath}, #{content}, #{parseStatus}, #{summary}, #{tags})
+    </insert>
+
+    <update id="update" parameterType="KnowledgeDoc">
+        UPDATE t_knowledge_doc
+        SET file_name = #{fileName},
+            file_type = #{fileType},
+            file_size = #{fileSize},
+            file_path = #{filePath},
+            content = #{content},
+            parse_status = #{parseStatus},
+            summary = #{summary},
+            tags = #{tags}
+        WHERE doc_key = #{docKey}
+    </update>
+
+    <delete id="deleteByKey">
+        DELETE FROM t_knowledge_doc WHERE doc_key = #{docKey}
+    </delete>
+</mapper>

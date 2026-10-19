@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.badmelon.farming.mapper.McpServerMapper">
+
+    <resultMap id="McpMap" type="McpServer">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="server_type" property="serverType"/>
+        <result column="endpoint" property="endpoint"/>
+        <result column="description" property="description"/>
+        <result column="config" property="config"/>
+        <result column="status" property="status"/>
+        <result column="last_checked" property="lastChecked"/>
+        <result column="created_at" property="createdAt"/>
+        <result column="updated_at" property="updatedAt"/>
+    </resultMap>
+
+    <select id="findAll" resultMap="McpMap">
+        SELECT * FROM t_mcp_server ORDER BY id
+    </select>
+
+    <select id="findActive" resultMap="McpMap">
+        SELECT * FROM t_mcp_server WHERE status = 'active' ORDER BY id
+    </select>
+
+    <select id="findByName" resultMap="McpMap">
+        SELECT * FROM t_mcp_server WHERE name = #{name}
+    </select>
+
+    <select id="findById" resultMap="McpMap">
+        SELECT * FROM t_mcp_server WHERE id = #{id}
+    </select>
+
+    <insert id="insert" parameterType="McpServer" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO t_mcp_server (name, server_type, endpoint, description, config, status)
+        VALUES (#{name}, #{serverType}, #{endpoint}, #{description}, #{config}, #{status})
+    </insert>
+
+    <update id="update" parameterType="McpServer">
+        UPDATE t_mcp_server
+        SET name = #{name},
+            server_type = #{serverType},
+            endpoint = #{endpoint},
+            description = #{description},
+            config = #{config},
+            status = #{status},
+            last_checked = #{lastChecked}
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteById">
+        DELETE FROM t_mcp_server WHERE id = #{id}
+    </delete>
+</mapper>

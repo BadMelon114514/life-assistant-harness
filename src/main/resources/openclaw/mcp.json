@@ -1,0 +1,144 @@
+{
+  "source": "openclaw-ecosystem",
+  "note": "本项目内置的 openclaw 生态常用 MCP 服务器。默认停用，需在 MCP 服务管理页启用并测试。",
+  "servers": [
+    {
+      "name": "filesystem",
+      "serverType": "stdio",
+      "endpoint": "npx -y @modelcontextprotocol/server-filesystem ./",
+      "description": "文件系统访问：读写本地文件与目录"
+    },
+    {
+      "name": "fetch",
+      "serverType": "stdio",
+      "endpoint": "npx -y @modelcontextprotocol/server-fetch",
+      "description": "网页抓取：获取 URL 内容并转为 Markdown"
+    },
+    {
+      "name": "memory",
+      "serverType": "stdio",
+      "endpoint": "npx -y @modelcontextprotocol/server-memory",
+      "description": "知识图谱记忆：持久化实体与关系记忆"
+    },
+    {
+      "name": "sequential-thinking",
+      "serverType": "stdio",
+      "endpoint": "npx -y @modelcontextprotocol/server-sequential-thinking",
+      "description": "逐步思考：复杂问题结构化分解推理"
+    },
+    {
+      "name": "github",
+      "serverType": "stdio",
+      "endpoint": "npx -y @modelcontextprotocol/server-github",
+      "description": "GitHub API：issues / PR / repos 查询与操作"
+    },
+    {
+      "name": "context7",
+      "serverType": "stdio",
+      "endpoint": "npx -y @upstash/context7-mcp",
+      "description": "最新技术文档检索：编程库 API 即时查询"
+    },
+    {
+      "name": "playwright",
+      "serverType": "stdio",
+      "endpoint": "npx -y @playwright/mcp@latest",
+      "description": "浏览器自动化：网页导航、截图、表单交互与测试"
+    },
+    {
+      "name": "time",
+      "serverType": "stdio",
+      "endpoint": "npx -y @modelcontextprotocol/server-time",
+      "description": "时间与时区：当前时间与时区转换"
+    },
+    {
+      "name": "git",
+      "serverType": "stdio",
+      "endpoint": "npx -y mcp-server-git",
+      "description": "Git 仓库操作：log / diff / status / branch 查询"
+    },
+    {
+      "name": "brave-search",
+      "serverType": "stdio",
+      "endpoint": "npx -y @modelcontextprotocol/server-brave-search",
+      "description": "网页搜索：Brave Search API 关键词检索"
+    },
+    {
+      "name": "gitlab",
+      "serverType": "stdio",
+      "endpoint": "npx -y @modelcontextprotocol/server-gitlab",
+      "description": "GitLab API：issues / MR / 仓库与 CI 查询"
+    },
+    {
+      "name": "google-maps",
+      "serverType": "stdio",
+      "endpoint": "npx -y @modelcontextprotocol/server-google-maps",
+      "description": "谷歌地图：地理编码、路线规划与地点查询"
+    },
+    {
+      "name": "postgres",
+      "serverType": "stdio",
+      "endpoint": "npx -y @modelcontextprotocol/server-postgres",
+      "description": "PostgreSQL 数据库：表结构与数据查询"
+    },
+    {
+      "name": "sqlite",
+      "serverType": "stdio",
+      "endpoint": "npx -y mcp-server-sqlite",
+      "description": "SQLite 本地数据库：查询、分析与读写"
+    },
+    {
+      "name": "sentry",
+      "serverType": "stdio",
+      "endpoint": "npx -y @modelcontextprotocol/server-sentry",
+      "description": "Sentry 错误与性能监控：issue / 指标查询"
+    },
+    {
+      "name": "slack",
+      "serverType": "stdio",
+      "endpoint": "npx -y @modelcontextprotocol/server-slack",
+      "description": "Slack 协作：频道消息、用户与搜索"
+    },
+    {
+      "name": "everart",
+      "serverType": "stdio",
+      "endpoint": "npx -y @modelcontextprotocol/server-everart",
+      "description": "AI 图像生成：文本生图与风格创作"
+    },
+    {
+      "name": "redis",
+      "serverType": "stdio",
+      "endpoint": "npx -y @modelcontextprotocol/server-redis",
+      "description": "Redis 键值数据：读写、查询与统计"
+    },
+    {
+      "name": "notion",
+      "serverType": "stdio",
+      "endpoint": "npx -y mcp-server-notion",
+      "description": "Notion 笔记：页面、数据库与内容管理"
+    },
+    {
+      "name": "youtube",
+      "serverType": "stdio",
+      "endpoint": "npx -y @anaisbetts/mcp-youtube",
+      "description": "YouTube：视频字幕下载与内容信息"
+    },
+    {
+      "name": "reminder",
+      "serverType": "http",
+      "endpoint": "http://127.0.0.1:8080/api/assistant/schedule",
+      "description": "定时提醒（系统内置）：设定/查询/取消延时提醒任务。POST 参数：instruct=提醒内容(必填), delayMinutes=延迟分钟数, title=提醒标题；GET 查询提醒列表；DELETE /{id} 取消提醒。地址为系统默认端口 8080，若修改过端口请同步调整。"
+    },
+    {
+      "name": "local-geo",
+      "serverType": "http",
+      "endpoint": "http://127.0.0.1:8080/api/assistant/location",
+      "description": "本机时间与定位（系统内置）：自动获取服务器本机时间（日期/星期/时区/时间戳，无需参数直接 GET）与地理位置（公网 IP 定位：城市/区域/国家/坐标，多服务级联，失败时优雅降级仅返回时间）。地址为系统默认端口 8080，若修改过端口请同步调整。"
+    },
+    {
+      "name": "context-store",
+      "serverType": "http",
+      "endpoint": "http://127.0.0.1:8765/api/mcp/tool",
+      "description": "上下文存储（类 OpenViking，Python+MySQL，需先启动 context_store 服务，默认 127.0.0.1:8765）：三级存储 L1 热/L2 温/L3 冷按权重下沉；context_load/append/sink/stats、snapshot_commit/diff/rollback、blackboard_put/get、resource_publish/versions/rollback/sync、doc_import/search/read。"
+    }
+  ]
+}
